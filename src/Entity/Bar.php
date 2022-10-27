@@ -17,15 +17,15 @@ class Bar
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $location = null;
-
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
     #[ORM\OneToOne(inversedBy: 'bar', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Menu $menu = null;
+
+    #[ORM\OneToOne(mappedBy: 'bar', cascade: ['persist', 'remove'])]
+    private ?BarLocation $barLocation = null;
 
     public function getId(): ?int
     {
@@ -40,18 +40,6 @@ class Bar
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getLocation(): ?string
-    {
-        return $this->location;
-    }
-
-    public function setLocation(string $location): self
-    {
-        $this->location = $location;
 
         return $this;
     }
@@ -76,6 +64,23 @@ class Bar
     public function setMenu(Menu $menu): self
     {
         $this->menu = $menu;
+
+        return $this;
+    }
+
+    public function getBarLocation(): ?BarLocation
+    {
+        return $this->barLocation;
+    }
+
+    public function setBarLocation(BarLocation $barLocation): self
+    {
+        // set the owning side of the relation if necessary
+        if ($barLocation->getBar() !== $this) {
+            $barLocation->setBar($this);
+        }
+
+        $this->barLocation = $barLocation;
 
         return $this;
     }
