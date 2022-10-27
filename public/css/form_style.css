@@ -1,0 +1,17 @@
+.form{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.row{
+
+}
+
+.label{
+    font-size: large;
+}
+
+.btn{
+    padding: 5px;
+}

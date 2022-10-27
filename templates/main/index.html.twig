@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/table_index.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <a href="{{ path('import_beer') }}">Nouvelle bière</a>
+
+    <table class="searchable sortable">
+        <thead>
+            <tr>
+                <th>Bar</th>
+                <th>Bière</th>
+                <th>
+                    <ul class="type_slector">
+                        {% for type in types %}
+                            <li class="type_row">
+                                <div class="label">{{ type.wording }}</div>
+                                <input type="checkbox">
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    Type <p class="click">O</p>
+                </th>
+                <th>Quantité</th>
+                <th>Prix</th>
+                <th>%</th>
+                <th>Ouvert</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+
+            </tr>
+        </tbody>
+    </table>
+<!--
+    <ul>
+        <li>Bar</li>
+        <li>Bière</li>
+        <li>Quantité</li>
+        <li>Prix</li>
+        <li>%</li>
+        <li>Ouvert</li>
+    </ul>
+-->
+{% endblock %}

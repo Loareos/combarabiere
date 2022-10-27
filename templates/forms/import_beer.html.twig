@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Import a Beer{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/form_style.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="title_page">
+        <h2>Import d'une bière</h2>
+    </div>
+
+    {{ form_start(formBeer) }}
+    <div class="form">
+        <div class="row">
+            <div class="label">{{ form_label(formBeer.name) }}</div>
+            {{ form_widget(formBeer.name) }}
+        </div>
+        <div class="row">
+            <div class="label">{{ form_label(formBeer.brewery) }}</div>
+            {{ form_widget(formBeer.brewery) }}
+        </div>
+        <div class="row">
+            <div class="label">{{ form_label(formBeer.alcool) }}</div>
+            {{ form_widget(formBeer.alcool) }}
+        </div>
+        <div class="row">
+            <div class="label">{{ form_label(formBeer.type) }}</div>
+            {{ form_widget(formBeer.type) }}
+        </div>
+        <div class="row">
+            <div class="label">{{ form_label(formBeer.description) }}</div>
+            {{ form_widget(formBeer.description) }}
+        </div>
+        <div class="row">
+            <button type="submit" class="btn">Enregistrer</button>
+        </div>
+    </div>
+    {{ form_end(formBeer) }}
+
+{% endblock %}
