@@ -26,9 +26,12 @@ class Beer
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne]
+/*    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?TypeOfBeer $type = null;
+*/
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $country = null;
 
     public function getId(): ?int
     {
@@ -82,7 +85,7 @@ class Beer
 
         return $this;
     }
-
+/*
     public function getType(): ?TypeOfBeer
     {
         return $this->type;
@@ -91,6 +94,18 @@ class Beer
     public function setType(?TypeOfBeer $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+*/
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?string $country): self
+    {
+        $this->country = $country;
 
         return $this;
     }

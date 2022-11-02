@@ -25,21 +25,27 @@ class BeerType extends AbstractType
                         'message' => 'Veuillez compléter ce champ.',
                     ])
                 ],
-                'label'=>'Nom'])
+                'label'=>'Nom'
+            ])
             ->add('brewery', TextType::class,[
                 'required'=>false,
-                'label'=>'Brasserie'])
+                'label'=>'Brasserie'
+            ])
             ->add('alcool', PercentType::class,[
                 'required'=> false,
                 'html5' => true,
                 'attr' => ['step' => 0.1],
                 'scale' => 1,
-                'label'=>'pourcentage d\'alcool'])
-            ->add('type', EntityType::class,[
+                'label'=>'pourcentage d\'alcool'
+            ])
+/*            ->add('type', EntityType::class,[
                 'class' => TypeOfBeer::class,
                 'choice_label' => 'wording'
+            ])*/
+            ->add('country', TextType::class,[
+                'required' => false,
+                'label' => 'Pays'
             ])
-//            ->add('note', )  PLUS TARD
             ->add('description', TextareaType::class,[
                 'required'=>false,
                 'label'=>'Description'

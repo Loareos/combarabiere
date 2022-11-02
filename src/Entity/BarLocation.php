@@ -17,9 +17,6 @@ class BarLocation
     private ?string $street = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $number = null;
-
-    #[ORM\Column(length: 255)]
     private ?string $city = null;
 
     #[ORM\Column(length: 255)]
@@ -48,18 +45,6 @@ class BarLocation
     public function setStreet(string $street): self
     {
         $this->street = $street;
-
-        return $this;
-    }
-
-    public function getNumber(): ?string
-    {
-        return $this->number;
-    }
-
-    public function setNumber(string $number): self
-    {
-        $this->number = $number;
 
         return $this;
     }

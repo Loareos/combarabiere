@@ -13,7 +13,6 @@ class BarLocationType extends AbstractType
     {
         $builder
             ->add('street')
-            ->add('number')
             ->add('city')
             ->add('country')
             ->add('longitude')

@@ -31,6 +31,9 @@ class Pricing
     #[ORM\JoinColumn(nullable: false)]
     private ?Beer $beer = null;
 
+    #[ORM\Column]
+    private ?int $position = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,6 +95,18 @@ class Pricing
     public function setBeer(?Beer $beer): self
     {
         $this->beer = $beer;
+
+        return $this;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(int $position): self
+    {
+        $this->position = $position;
 
         return $this;
     }

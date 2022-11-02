@@ -7,5 +7,32 @@
 
 {% block body %}
 
+    <div class="title_page">
+        <h2>Import d'une prix</h2>
+    </div>
+
+    {{ form_start(formPrice) }}
+    <div class="form">
+        <div class="row">
+            <div class="label">{{ form_label(formPrice.price) }}</div>
+            {{ form_widget(formPrice.price) }}
+        </div>
+        <div class="row">
+            <div class="label">{{ form_label(formPrice.quantity) }}</div>
+            {{ form_widget(formPrice.quantity) }}
+        </div>
+        <div class="row">
+            <div class="label">{{ form_label(formPrice.service) }}</div>
+            {{ form_widget(formPrice.service) }}
+        </div>
+        <div class="row">
+            <div class="label">{{ form_label(formPrice.beer) }}</div>
+            {{ form_widget(formPrice.beer) }}
+        </div>
+        <div class="row">
+            <button type="submit" class="btn">Enregistrer</button>
+        </div>
+    </div>
+    {{ form_end(formPrice) }}
 
 {% endblock %}

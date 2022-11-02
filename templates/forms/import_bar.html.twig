@@ -5,7 +5,78 @@
 {% block stylesheets %}
 {% endblock %}
 
+{% block javascripts %}
+    <script src="{{ asset('js/import_bar.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% endblock %}
+
 {% block body %}
 
+    <div class="title_page">
+        <h2>Import d'un bar</h2>
+    </div>
+
+    {{ form_start(formBar) }}
+    <div class="form">
+        <div class="row">
+            <div class="label">{{ form_label(formBar.name) }}</div>
+            {{ form_widget(formBar.name) }}
+        </div>
+        <div class="row">
+            <div class="label">{{ form_label(formBar.description) }}</div>
+            {{ form_widget(formBar.description) }}
+        </div>
+
+        <div class="sub-title">
+            <h3>Carte</h3>
+        </div>
+
+        <div class="beer-list">
+            <ul class="pricings"
+                data-index="{{ formBar.menu.pricing|length > 0 ? formBar.menu.pricing|last.vars.name + 1 : 0 }}"
+                data-prototype="{{ _self.price(formBar.menu.pricing.vars.prototype)|e('html_attr') }}">
+
+                {% for price in formBar.menu.pricing %}
+                    <div class="price-row">
+                        {{ _self.price(price) }}
+                    </div>
+                {% endfor %}
+
+                <button type="button" class="add_price_btn" data-collection-holder-class="pricings" onclick="addPrice(this)">Add</button>
+
+            </ul>
+        </div>
+
+
+
+        <div class="row">
+            <button type="submit" class="btn">Enregistrer</button>
+        </div>
+    </div>
+    {{ form_end(formBar) }}
+
+
+    {% macro price(priceFrom) %}
+
+        <div class="form">
+            <div class="row">
+                <div class="label">{{ form_label(priceFrom.price) }}</div>
+                {{ form_widget(priceFrom.price) }}
+            </div>
+            <div class="row">
+                <div class="label">{{ form_label(priceFrom.quantity) }}</div>
+                {{ form_widget(priceFrom.quantity) }}
+            </div>
+            <div class="row">
+                <div class="label">{{ form_label(priceFrom.service) }}</div>
+                {{ form_widget(priceFrom.service) }}
+            </div>
+            <div class="row">
+                <div class="label">{{ form_label(priceFrom.beer) }}</div>
+                {{ form_widget(priceFrom.beer) }}
+            </div>
+        </div>
+
+    {% endmacro %}
 
 {% endblock %}
