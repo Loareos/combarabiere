@@ -3,8 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Bar;
-use App\Entity\Menu;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -32,8 +30,12 @@ class BarType extends AbstractType
                 'label'=>'Description'
             ])
             ->add(
-                $builder->create('menu', FormType::class,['by_reference' => true])
+                $builder->create('menu', FormType::class,[
+                    'by_reference' => true,
+                    'label' => false
+                ])
                     ->add('pricing', CollectionType::class,[
+                        'label' => false,
                         'entry_type' => PricingType::class,
                         'entry_options' => [
                             'label' => false
@@ -43,7 +45,14 @@ class BarType extends AbstractType
                         'prototype_name' => '__pricing__'
                     ])
             )
-//            ->add('barLocation')
+            ->add(
+                $builder->create('barLocation', FormType::class,['by_reference' => true])
+                    ->add('street')
+                    ->add('city')
+                    ->add('country')
+                    ->add('longitude')
+                    ->add('latitude')
+            )
         ;
     }
 

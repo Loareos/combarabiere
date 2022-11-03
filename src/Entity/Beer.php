@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BeerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,21 +19,22 @@ class Beer
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $brewery = null;
-
     #[ORM\Column(nullable: true)]
     private ?float $alcool = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-/*    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?TypeOfBeer $type = null;
-*/
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $country = null;
+    #[ORM\ManyToMany(targetEntity: TypeOfBeer::class)]
+    private Collection $types;
+
+    #[ORM\ManyToOne(inversedBy: 'beers')]
+    private ?Brewery $brewery = null;
+
+    public function __construct()
+    {
+        $this->types = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -46,18 +49,6 @@ class Beer
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getBrewery(): ?string
-    {
-        return $this->brewery;
-    }
-
-    public function setBrewery(?string $brewery): self
-    {
-        $this->brewery = $brewery;
 
         return $this;
     }
@@ -85,27 +76,39 @@ class Beer
 
         return $this;
     }
-/*
-    public function getType(): ?TypeOfBeer
+
+    /**
+     * @return Collection<int, TypeOfBeer>
+     */
+    public function getTypes(): Collection
     {
-        return $this->type;
+        return $this->types;
     }
 
-    public function setType(?TypeOfBeer $type): self
+    public function addType(TypeOfBeer $type): self
     {
-        $this->type = $type;
+        if (!$this->types->contains($type)) {
+            $this->types->add($type);
+        }
 
         return $this;
     }
-*/
-    public function getCountry(): ?string
+
+    public function removeType(TypeOfBeer $type): self
     {
-        return $this->country;
+        $this->types->removeElement($type);
+
+        return $this;
     }
 
-    public function setCountry(?string $country): self
+    public function getBrewery(): ?Brewery
     {
-        $this->country = $country;
+        return $this->brewery;
+    }
+
+    public function setBrewery(?Brewery $brewery): self
+    {
+        $this->brewery = $brewery;
 
         return $this;
     }

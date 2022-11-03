@@ -35,7 +35,9 @@ class FormularController extends AbstractController
             $em->flush();
         }
 
-        return $this->render('forms/import_beer.html.twig', ['formBeer' => $formBeer->createView()]);
+        return $this->renderForm('forms/import_beer.html.twig', [
+            'formBeer' => $formBeer
+        ]);
     }
 
     /**

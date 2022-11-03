@@ -38,10 +38,6 @@ class BeerType extends AbstractType
                 'scale' => 1,
                 'label'=>'pourcentage d\'alcool'
             ])
-/*            ->add('type', EntityType::class,[
-                'class' => TypeOfBeer::class,
-                'choice_label' => 'wording'
-            ])*/
             ->add('country', TextType::class,[
                 'required' => false,
                 'label' => 'Pays'
@@ -49,6 +45,12 @@ class BeerType extends AbstractType
             ->add('description', TextareaType::class,[
                 'required'=>false,
                 'label'=>'Description'
+            ])
+            ->add('types', EntityType::class,[
+                'class' => TypeOfBeer::class,
+                'choice_label' => 'wording',
+                'multiple' => true,
+                'expanded' => true
             ])
         ;
     }

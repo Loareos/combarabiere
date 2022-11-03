@@ -5,6 +5,11 @@
     <link rel="stylesheet" href="{{ asset('css/form_style.css') }}">
 {% endblock %}
 
+{% block javascripts %}
+    <script src="{{ asset('js/import_beer.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% endblock %}
+
 {% block body %}
 
     <div class="title_page">
@@ -34,6 +39,14 @@
             <div class="label">{{ form_label(formBeer.description) }}</div>
             {{ form_widget(formBeer.description) }}
         </div>
+
+        <div class="row">
+            <div class="label">{{ form_label(formBeer.types) }}</div>
+            {{ form_widget(formBeer.types) }}
+        </div>
+
+
+
         <div class="row">
             <button type="submit" class="btn">Enregistrer</button>
         </div>
