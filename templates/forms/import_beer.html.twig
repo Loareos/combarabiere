@@ -16,6 +16,7 @@
         <h2>Import d'une bière</h2>
     </div>
 
+
     {{ form_start(formBeer) }}
     <div class="form">
         <div class="row">
@@ -23,21 +24,8 @@
             {{ form_widget(formBeer.name) }}
         </div>
         <div class="row">
-            <div class="label">{{ form_label(formBeer.brewery) }}</div>
-            {{ form_widget(formBeer.brewery) }}
-        </div>
-        <div class="row">
             <div class="label">{{ form_label(formBeer.alcool) }}</div>
             {{ form_widget(formBeer.alcool) }}
-        </div>
-
-        <div class="row">
-            <div class="label">{{ form_label(formBeer.country) }}</div>
-            {{ form_widget(formBeer.country) }}
-        </div>
-        <div class="row">
-            <div class="label">{{ form_label(formBeer.description) }}</div>
-            {{ form_widget(formBeer.description) }}
         </div>
 
         <div class="row">
@@ -45,7 +33,10 @@
             {{ form_widget(formBeer.types) }}
         </div>
 
-
+        <div class="row">
+            <div class="label">{{ form_label(formBeer.description) }}</div>
+            {{ form_widget(formBeer.description) }}
+        </div>
 
         <div class="row">
             <button type="submit" class="btn">Enregistrer</button>

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TypeOfBeerRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TypeOfBeerRepository::class)]
@@ -15,6 +16,10 @@ class TypeOfBeer
 
     #[ORM\Column(length: 255)]
     private ?string $wording = null;
+
+    #[ORM\ManyToMany(targetEntity: Beer::class)]
+    private Collection $beers;
+
 
     public function getId(): ?int
     {
@@ -32,4 +37,14 @@ class TypeOfBeer
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Beer>
+     */
+    public function getBeers(): Collection
+    {
+        return $this->beers;
+    }
+
+
 }

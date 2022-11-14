@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Beer;
+use App\Entity\TypeOfBeer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -38,6 +39,22 @@ class BeerRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function findBeersByType(TypeOfBeer $type){
+        /*       $em = $this->getEntityManager();
+
+               $query = $em->createQuery(
+                   'SELECT b FROM App\Entity\Beer b WHERE b.types IN :types'
+               )->setParameters('types', $types);
+               return $query->getResult();
+       */
+               $qb = $this->createQueryBuilder("b")
+                   ->where(':type MEMBER OF b.types')
+                   ->setParameters(array('type'=>$type));
+               return $qb->getQuery()->getResult();
+    }
+
+
 
 //    /**
 //     * @return Beer[] Returns an array of Beer objects

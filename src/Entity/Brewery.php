@@ -18,20 +18,8 @@ class Brewery
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $adress = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $city = null;
-
     #[ORM\Column(length: 255)]
     private ?string $country = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $website = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $description = null;
 
     #[ORM\OneToMany(mappedBy: 'brewery', targetEntity: Beer::class)]
     private Collection $beers;

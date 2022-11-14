@@ -4,10 +4,16 @@ namespace App\Controller;
 
 use App\Entity\Service;
 use App\Entity\TypeOfBeer;
+use App\Repository\BeerRepository;
 use App\Repository\TypeOfBeerRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class MainController extends AbstractController
 {
@@ -15,27 +21,43 @@ class MainController extends AbstractController
     /**
      * @Route("/", name="main_home")
      */
-    public function home(TypeOfBeerRepository $tobr){
+    public function home(TypeOfBeerRepository $tobr, BeerRepository $beerRepo){
         $types = $tobr->findAll();
-//        $file_json = file_get_contents("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?fields=formatted_address%2Cname%2Crating%2Copening_hours%2Cgeometry&input=Museum%20of%20Contemporary%20Art%20Australia&inputtype=textquery&key=AIzaSyCVCX-63LKdL3Ak7GsECG-sRyHlNAZHR7Y");
-//        echo($file_json);
-
-     //   $file_json = file_get_contents("https://maps.googleapis.com/maps/api/place/nearbysearch/json?keyword=bar&location=47.3942363%2C0.6821045&radius=500&type=bar&key=AIzaSyDeitFrhebI0BSSfu0XnMJFT1C6kZ9JPts");
-     //   echo ($file_json);
-/*        $query = file_get_contents('http://ip-api.com/json/');
-        echo ($query);
-        $query = json_decode($query, true);
-*//*        if ($query && $query['status'] == 'success') {
-            echo 'Hey user from ' . $query['country'] . ', ' . $query['city'] . '!';
-        }
-        foreach ($query as $data) {
-            echo $data . "<br>";
-        }
- */
-
+        $beers = $beerRepo->findBy([],['name'=>'ASC']);
         return $this->render('main/index.html.twig',[
-            'types' => $types
+            'types' => $types,
+            'beers' => $beers
         ]);
+    }
+
+    /**
+     * @Route("/ajax", name="recherche_ajax")
+     */
+    public function ajaxSearch(BeerRepository $beerRepository, TypeOfBeerRepository $typeRepository): Response{
+        $encoders = [new XmlEncoder(), new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+        $serializer = new Serializer($normalizers, $encoders);
+        $typeIds = array();
+        foreach($_POST as $key => $value){
+            if($value == 'true'){
+                array_push($typeIds, $key);
+            }
+        }
+        $types = $typeRepository->findBy(['id'=>$typeIds]);
+        $beers = array();
+        foreach ($types as $type){
+            if($beerRepository->findBeersByType($type) != null) {
+                foreach ($beerRepository->findBeersByType($type) as $beer){
+                    if(!in_array($beer, $beers)){
+                        array_push($beers, $beer);
+                    }
+                }
+            }
+        }
+        $jsonContent = $serializer->serialize($beers, 'json');
+// https://stackoverflow.com/questions/13343533/using-entityrepositoryfindby-with-many-to-many-relations-will-lead-to-a-e-no
+        //dd($beers);
+        return new Response(json_encode($jsonContent));
     }
 
     function creatTypeOfBeer(EntityManagerInterface $em){

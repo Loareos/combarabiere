@@ -5,27 +5,32 @@
 {% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/table_index.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" charset="UTF-8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 {% endblock %}
 
 {% block body %}
 
     <a href="{{ path('import_beer') }}">Nouvelle bière</a>
 
-    <table class="searchable sortable">
+    <table class="searchable sortable" id="table-idx">
         <thead>
             <tr>
                 <th>Bar</th>
                 <th>Bière</th>
-                <th>
+                <th>Type <p class="click" onclick="show(this.parentNode.lastElementChild)">O</p>
                     <ul class="type_slector">
                         {% for type in types %}
                             <li class="type_row">
-                                <div class="label">{{ type.wording }}</div>
-                                <input type="checkbox">
+                                <input type="checkbox" name="{{ type.wording }}" id="{{ type.wording }}" checked="checked" onclick="selectType()">
+                                <label for="{{ type.wording }}">{{ type.wording }}</label>
                             </li>
                         {% endfor %}
                     </ul>
-                    Type <p class="click">O</p>
                 </th>
                 <th>Quantité</th>
                 <th>Prix</th>
@@ -34,19 +39,47 @@
             </tr>
         </thead>
         <tbody>
+        {% for beer in beers %}
             <tr>
-
+                <td>NONE</td>
+                <td>{{ beer.name }}</td>
+                <td>{% for type in beer.types %}|{{ type.wording }}|{% endfor %}</td>
+                <td>NONE</td>
+                <td>NONE</td>
+                <td>{{ beer.alcool * 100 }}%</td>
+                <td>NONE</td>
             </tr>
+        {% endfor %}
         </tbody>
     </table>
-<!--
-    <ul>
-        <li>Bar</li>
-        <li>Bière</li>
-        <li>Quantité</li>
-        <li>Prix</li>
-        <li>%</li>
-        <li>Ouvert</li>
-    </ul>
--->
+
+
+    <script>
+        function show(elmt){
+            if(elmt.style.display === "none"){
+                elmt.style.display = "inline-block";
+            } else {
+                elmt.style.display = "none";
+            }
+        }
+
+        function selectType(){
+            var tab = {};
+            {% for type in types %}
+                tab['{{ type.id }}'] = {{ type.wording }}.checked;
+            {% endfor %}
+//            console.log(tab);
+            $.ajax({
+                method: "POST",
+                url: "{{ path('recherche_ajax') }}",
+                data: tab,
+                dataType: 'JSON',
+                success: function(data){
+                    dataResp = (JSON.parse(data));
+                    console.log(dataResp);
+                }
+            });
+        }
+    </script>
+
 {% endblock %}

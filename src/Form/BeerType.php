@@ -27,20 +27,12 @@ class BeerType extends AbstractType
                 ],
                 'label'=>'Nom'
             ])
-            ->add('brewery', TextType::class,[
-                'required'=>false,
-                'label'=>'Brasserie'
-            ])
             ->add('alcool', PercentType::class,[
                 'required'=> false,
                 'html5' => true,
                 'attr' => ['step' => 0.1],
                 'scale' => 1,
                 'label'=>'pourcentage d\'alcool'
-            ])
-            ->add('country', TextType::class,[
-                'required' => false,
-                'label' => 'Pays'
             ])
             ->add('description', TextareaType::class,[
                 'required'=>false,
