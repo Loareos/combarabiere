@@ -38,7 +38,7 @@
                 <th>Ouvert</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="content">
         {% for beer in beers %}
             <tr>
                 <td>NONE</td>
@@ -75,8 +75,35 @@
                 data: tab,
                 dataType: 'JSON',
                 success: function(data){
+                    lst = document.getElementById('content');
+                    while(lst.firstChild) {
+                        lst.removeChild(lst.firstChild);
+                    }
                     dataResp = (JSON.parse(data));
-                    console.log(dataResp);
+                    for(let i of dataResp){
+                        const line = lst.insertRow();
+                        for(let j = 0;j<7;j++){
+                            const cell = line.insertCell();
+                            switch (j) {
+                                case 1:
+                                    cell.innerText = i.name;
+                                    break;
+                                case 2:
+                                    for(let type of i.types){
+                                        cell.innerText += "|"+type.wording+"|"
+                                    }
+                                    break;
+                                case 5:
+                                    cell.innerText = i.alcool*100+"%";
+                                    break;
+                                default:
+                                    cell.innerText = 'NONE';
+                                    break;
+
+                            }
+                        }
+
+                    }
                 }
             });
         }
