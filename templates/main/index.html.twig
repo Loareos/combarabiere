@@ -34,13 +34,14 @@
                 </th>
                 <th>Quantité</th>
                 <th>Prix</th>
-                <th>%</th>
+                <th>% <p class="click" onclick="show(this.parentNode.lastElementChild)">O</p>
+                </th>
                 <th>Ouvert</th>
             </tr>
         </thead>
         <tbody id="content">
         {% for beer in beers %}
-            <tr>
+            <tr id="{{ beer.name }}_{% for type in beer.types %}|{{ type.wording }}|{% endfor %}_{{ beer.alcool * 100 }}%" class="line">
                 <td>NONE</td>
                 <td>{{ beer.name }}</td>
                 <td>{% for type in beer.types %}|{{ type.wording }}|{% endfor %}</td>
@@ -64,11 +65,30 @@
         }
 
         function selectType(){
-            var tab = {};
+            let lst_line = document.getElementsByClassName('line');
+            for (let l of lst_line){
+                let typeOk = false;
+                while(typeOk === false) {
+                    {% for type in types %}
+                        if ({{ type.wording }}.checked && l.id.includes('{{ type.wording }}')){
+                            typeOk= true;
+                            l.style.display = "table-row";
+                            break;
+                        }
+                    {% endfor %}
+                    l.style.display = "none";
+                    break;
+                }
+            }
+
+/*            var tab = {};
             {% for type in types %}
                 tab['{{ type.id }}'] = {{ type.wording }}.checked;
+                if({{ type.wording }}.checked){
+                    tab['{{ type.id }}'] = {{ type.wording }};
+                }
             {% endfor %}
-//            console.log(tab);
+
             $.ajax({
                 method: "POST",
                 url: "{{ path('recherche_ajax') }}",
@@ -105,7 +125,7 @@
 
                     }
                 }
-            });
+            });*/
         }
     </script>
 
